@@ -6,6 +6,11 @@
 
 [](https://discordapp.com/api/oauth2/authorize?client_id=596048932971348027&permissions=116800&scope=bot)
 
+## Interactions
+
+Crypto bot will search your messages for crypto tickers and provide you the latest price information. 
+The bot will also respond to `!crypto <ticker>` commands.
+
 ## Development
 
 ```shell
