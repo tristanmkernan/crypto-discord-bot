@@ -1,4 +1,4 @@
-# Meme Bot
+# Crypto Bot
 
 <p align="center">
   <a href="https://discordapp.com/api/oauth2/authorize?client_id=596048932971348027&permissions=116800&scope=bot"><img src="https://img.shields.io/badge/discord-add%20bot-lightgrey.svg" /></a>
