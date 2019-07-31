@@ -83,7 +83,7 @@ async def on_message(message):
                     f" - CHANGE 24hrs ${datum['price_change_24h']}"
                 )
 
-        await sleep(60)
+        await sleep(MESSAGE_INTERVAL_MINUTES)
 
 
 bot.run(os.environ.get("BOT_PASSWORD"))
