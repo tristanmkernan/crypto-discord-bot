@@ -1,5 +1,4 @@
 import aiohttp
-import discord
 import json
 import os
 
@@ -8,7 +7,7 @@ from discord.ext import commands
 from random import choice
 
 
-MESSAGE_INTERVAL_MINUTES = 1
+MESSAGE_INTERVAL_MINUTES = 60
 
 with open("cryptocoins.json") as fp:
     CRYPTO_DB = json.load(fp)
@@ -85,54 +84,6 @@ async def on_message(message):
                 )
 
         await sleep(60)
-
-
-class MyClient(discord.Client):
-    def __init__(self, *args, **kwargs):
-        super(MyClient, self).__init__(*args, **kwargs)
-
-        self.lock = Lock()
-
-    async def on_ready(self):
-        print(f"Logged on as {self.user}")
-        await self.change_presence(activity=discord.Game(name="SKYNET"))
-
-    async def on_message(self, message):
-
-        # set of ids for API retrieval
-        matches = []
-
-        for crypto in CRYPTO_DB:
-            if crypto["symbol"] in message.content.lower():
-                matches.append(crypto["id"])
-
-        if len(matches) == 0:
-            return
-
-        if self.lock.locked():
-            return
-
-        # select only 1 ticker at random
-        matches = [choice(matches)]
-
-        async with self.lock:
-            async with aiohttp.ClientSession() as session:
-                crypto_ids = ",".join(match for match in matches)
-
-                # example
-                # https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=01coin,0chain
-                data = await fetch(
-                    session,
-                    f"https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids={crypto_ids}",
-                )
-
-                for datum in data:
-                    await message.channel.send(
-                        f"{datum['symbol']}/{datum['name']} - CURRENT ${datum['current_price']}"
-                        f" - CHANGE 24hrs ${datum['price_change_24h']}"
-                    )
-
-            await sleep(60)
 
 
 bot.run(os.environ.get("BOT_PASSWORD"))
