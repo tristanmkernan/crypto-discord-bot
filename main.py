@@ -7,7 +7,7 @@ from discord.ext import commands
 from random import choice
 
 
-MESSAGE_INTERVAL_MINUTES = 60
+MESSAGE_INTERVAL_SECONDS = 60 * 60
 
 with open("cryptocoins.json") as fp:
     CRYPTO_DB = json.load(fp)
@@ -83,7 +83,7 @@ async def on_message(message):
                     f" - CHANGE 24hrs ${datum['price_change_24h']}"
                 )
 
-        await sleep(MESSAGE_INTERVAL_MINUTES)
+        await sleep(MESSAGE_INTERVAL_SECONDS)
 
 
 bot.run(os.environ.get("BOT_PASSWORD"))
